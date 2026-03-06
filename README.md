@@ -14,6 +14,8 @@
 
 **Nastaleeq Quran API** is a **free REST API** that provides high-quality images of all 604 Quran pages in the **Nastaleeq (Urdu/Persian) script**. Since no reliable public CDN exists for Nastaleeq Quran pages, this project fills that gap by:
 
+This script style is widely used in **India, Pakistan, and neighboring regions**, and is commonly known as **Hifz Quran**, **15-line Quran**, or **Hafizi Quran**.
+
 - 🖼️ Hosting all 604 pages on **Cloudinary** (fast, reliable CDN)
 - 🚀 Providing a **serverless API** deployed on **Vercel** (globally distributed)
 - 📱 Optimized for **mobile apps** with 302 redirects for fast image loading
@@ -40,6 +42,7 @@ Try these URLs in your browser:
 
 - **Health Check:** [/health](https://nastaleeq-api.vercel.app/health)
 - **Page 1 (Al-Fatiha):** [/api/pages/1/image](https://nastaleeq-api.vercel.app/api/pages/1/image)
+- **Page 1 (Cropped Borders):** [/api/pages/1/image?crop=true](https://nastaleeq-api.vercel.app/api/pages/1/image?crop=true)
 - **All Pages Metadata:** [/api/pages](https://nastaleeq-api.vercel.app/api/pages)
 
 ---
@@ -59,7 +62,7 @@ const QuranPage = ({ pageNumber }: { pageNumber: number }) => {
   
   return (
     <Image
-      source={{ uri: `${API_BASE}/api/pages/${pageNumber}/image` }}
+      source={{ uri: `${API_BASE}/api/pages/${pageNumber}/image?crop=true` }}
       style={{ width: '100%', height: '100%' }}
       resizeMode="contain"
     />
@@ -82,7 +85,7 @@ fetch(`${API_BASE}/api/pages/${pageNumber}`)
 
 // OR directly use the redirect endpoint (recommended for mobile)
 document.querySelector('#quran-page').src = 
-  `${API_BASE}/api/pages/${pageNumber}/image`;
+  `${API_BASE}/api/pages/${pageNumber}/image?crop=true`;
 ```
 
 ---
@@ -178,6 +181,10 @@ GET /api/pages/:pageNumber
 GET /api/pages/:pageNumber/image
 ```
 
+**Query Parameters:**
+- `crop` (optional) - `true` or `1` to remove decorative borders using Cloudinary crop transformation.
+  - Active transformation: `c_crop,g_center,w_0.88,h_0.87,q_auto,f_auto`
+
 **Response:** HTTP 302 redirect to Cloudinary image URL
 
 **Why use this?**
@@ -187,6 +194,18 @@ GET /api/pages/:pageNumber/image
 - ✅ Works directly in `<img>` tags and React Native `<Image>`
 
 **Example:** `/api/pages/1/image` → Redirects to Cloudinary
+
+**Cropped Example (Recommended for full-screen reading):**
+
+```
+/api/pages/1/image?crop=true
+```
+
+This returns a 302 redirect to a Cloudinary URL with:
+
+```
+c_crop,g_center,w_0.88,h_0.87,q_auto,f_auto
+```
 
 ---
 
