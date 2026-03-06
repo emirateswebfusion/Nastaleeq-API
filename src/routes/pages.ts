@@ -77,13 +77,13 @@ router.get('/pages/:pageNumber/image', (req: Request, res: Response) => {
     const crop = req.query.crop === 'true' || req.query.crop === '1';
     
     if (crop && imageUrl.includes('cloudinary.com')) {
-      // Insert crop transformations: remove ~10% margins on each side
+      // Insert crop transformations: small border trim
       // c_crop,g_center - crop from center
-      // w_0.8,h_0.85 - use 80% width, 85% height (removes borders)
+      // w_0.78,h_0.83 - slightly tighter than previous crop
       // q_auto,f_auto - optimize quality and format
       imageUrl = imageUrl.replace(
         '/upload/',
-        '/upload/c_crop,g_center,w_0.8,h_0.85,q_auto,f_auto/'
+        '/upload/c_crop,g_center,w_0.78,h_0.83,q_auto,f_auto/'
       );
     }
 
