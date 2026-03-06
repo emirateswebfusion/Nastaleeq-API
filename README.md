@@ -2,7 +2,6 @@
 
 > **A free, public API serving all 604 pages of the Holy Quran in beautiful Nastaleeq (نستعلیق) script**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/emirateswebfusion/Nastaleeq-API)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D22.x-brightgreen)](package.json)
 
@@ -47,7 +46,7 @@ Try these URLs in your browser:
 
 ---
 
-## 🚀 Quick Start for Developers
+## 🚀 Quick Start (API Usage)
 
 ### For Mobile/Web Apps (Just Use It!)
 
@@ -226,155 +225,6 @@ https://res.cloudinary.com/df2b1hvbj/image/upload/v1234567890/quran-nastaleeq/pa
 
 ---
 
-## 🛠️ Deploy Your Own Instance
-
-Want to host your own API? Follow these steps:
-
-### Prerequisites
-
-- **Node.js** 22.x or higher
-- **Cloudinary Account** (free tier: [cloudinary.com](https://cloudinary.com))
-- **Vercel Account** (free tier: [vercel.com](https://vercel.com))
-- **Git** installed
-
----
-
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/emirateswebfusion/Nastaleeq-API.git
-cd Nastaleeq-API
-```
-
----
-
-### Step 2: Install Dependencies
-
-```bash
-npm install
-```
-
----
-
-### Step 3: Configure Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-PORT=3000
-```
-
-Get your credentials from [Cloudinary Dashboard](https://cloudinary.com/console).
-
----
-
-### Step 4: Prepare Quran Images
-
-You need 604 JPG files (one for each Quran page).
-
-#### Option A: Download Pre-converted Images
-- Download Nastaleeq Quran PDF from [quran.ksu.edu.sa](https://quran.ksu.edu.sa)
-- Use a PDF-to-JPG converter (see below)
-
-#### Option B: Use ImageMagick (Recommended)
-
-```bash
-# Install ImageMagick from imagemagick.org
-magick convert -density 300 nastaleeq.pdf -quality 90 uploads/images/page_%03d.jpg
-```
-
-#### Option C: Online Converters
-- [ilovepdf.com/pdf_to_jpg](https://www.ilovepdf.com/pdf_to_jpg)
-- [pdf2jpg.net](https://pdf2jpg.net)
-
-**Important:** Rename files to match this format:
-- `page_001.jpg` (Page 1)
-- `page_002.jpg` (Page 2)
-- ...
-- `page_604.jpg` (Page 604)
-
-Place all files in: `uploads/images/`
-
----
-
-### Step 5: Upload Images to Cloudinary
-
-```bash
-npm run upload
-```
-
-This will:
-- Upload all images to Cloudinary (including the 5 intro pages)
-- Take ~15-30 minutes depending on your connection
-
-**Then run the offset fix:**
-
-```bash
-npm run fix-offset
-```
-
-This will:
-- Fetch all uploaded images from Cloudinary
-- Skip the first 5 intro/cover pages
-- Remap the API so **page 1 = Al-Fatiha** (standard Quran numbering)
-- Generate `meta/pages.json` with the correct mapping
-- Result: 619 total API pages (624 images - 5 intro pages)
-
----
-
-### Step 6: Test Locally
-
-```bash
-npm run dev
-```
-
-Visit: http://localhost:3000/health
-
-Test an image: http://localhost:3000/api/pages/1/image
-
----
-
-### Step 7: Deploy to Vercel
-
-#### Method A: Vercel CLI (Recommended)
-
-```bash
-# Install Vercel CLI globally
-npm i -g vercel
-
-# Login to Vercel
-vercel login
-
-# Deploy to production
-vercel --prod
-```
-
-#### Method B: GitHub Integration
-
-1. Push code to GitHub
-2. Visit [vercel.com/new](https://vercel.com/new)
-3. Import your repository
-4. Add environment variables in Vercel dashboard:
-   - `CLOUDINARY_CLOUD_NAME`
-   - `CLOUDINARY_API_KEY`
-   - `CLOUDINARY_API_SECRET`
-5. Deploy!
-
----
-
-### Step 8: Test Your Deployment
-
-Your API will be live at: `https://your-project-name.vercel.app`
-
-Test endpoints:
-- `/health` - Should return `{"status":"ok"}`
-- `/api/pages/1/image` - Should show Quran page 1
-
----
-
 ## 📱 Mobile App Integration
 
 ### React Native (TypeScript)
@@ -475,57 +325,6 @@ fun QuranPage(pageNumber: Int) {
 
 ---
 
-## 🏗️ Project Structure
-
-```
-Nastaleeq-API/
-├── src/
-│   ├── index.ts              # Main Express server
-│   ├── routes/
-│   │   └── pages.ts          # API route handlers
-│   ├── config/
-│   │   └── cloudinary.ts     # Cloudinary SDK config
-│   └── scripts/
-│       ├── batch-upload.ts   # Upload 604 pages to Cloudinary
-│       └── upload.ts         # Single file uploader
-├── meta/
-│   ├── pages.json            # Generated metadata (page → URL mapping)
-│   └── pages.json.example    # Example structure
-├── public/
-│   └── images/               # Source images (before upload)
-├── uploads/
-│   └── images/               # Place your 604 JPGs here (page_001.jpg - page_604.jpg)
-├── .env                      # Environment variables (DO NOT commit!)
-├── .env.example              # Example env template
-├── vercel.json               # Vercel deployment config
-├── tsconfig.json             # TypeScript config
-├── package.json              # Dependencies & scripts
-└── README.md                 # This file
-```
-
----
-
-## 🔧 Available Scripts
-
-```bash
-# Install dependencies
-npm install
-
-# Run development server (local)
-npm run dev
-
-# Build TypeScript
-npm run build
-
-# Start production server (local)
-npm start
-
-# Upload images to Cloudinary
-npm run upload
-```
-
----
-
 ## 🌟 Features
 
 - ✅ **All 604 Quran pages** in Nastaleeq script
@@ -538,29 +337,6 @@ npm run upload
 - ✅ **302 redirects** for efficient mobile image loading
 - ✅ **Zero configuration** for API consumers
 - ✅ **Free tier friendly** (Cloudinary + Vercel)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how:
-
-1. **Fork** this repository
-2. **Clone** your fork: `git clone https://github.com/YOUR-USERNAME/Nastaleeq-API.git`
-3. **Create a branch**: `git checkout -b feature/your-feature-name`
-4. **Make changes** and commit: `git commit -m "Add your feature"`
-5. **Push** to your fork: `git push origin feature/your-feature-name`
-6. **Open a Pull Request** on GitHub
-
-### Ideas for Contributions
-
-- 📖 Add translation endpoints (Arabic, English, Urdu)
-- 🎙️ Add audio recitation URLs
-- 🔍 Add verse search functionality
-- 📊 Add Surah/Juz metadata
-- 🌐 Add more script options (Uthmani, IndoPak)
-- 📱 Add SDKs for popular frameworks
-- 📝 Improve documentation/examples
 
 ---
 
