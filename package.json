@@ -1,0 +1,39 @@
+{
+  "name": "quran-nastaleeq-api",
+  "version": "1.0.0",
+  "description": "Nastaleeq Quran Pages API - Convert and serve via Cloudinary",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "upload": "ts-node src/scripts/upload.ts"
+  },
+  "keywords": [
+    "quran",
+    "nastaleeq",
+    "cloudinary",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cloudinary": "^1.40.0",
+    "pdf-parse": "^1.1.1",
+    "sharp": "^0.33.0",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
