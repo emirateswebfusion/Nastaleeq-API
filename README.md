@@ -32,15 +32,15 @@
 ## 🌐 Live API
 
 **Production Endpoint:**  
-`https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app`
+`https://nastaleeq-api.vercel.app`
 
 ### Quick Test
 
 Try these URLs in your browser:
 
-- **Health Check:** [/health](https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app/health)
-- **Page 1 (Al-Fatiha):** [/api/pages/1/image](https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app/api/pages/1/image)
-- **All Pages Metadata:** [/api/pages](https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app/api/pages)
+- **Health Check:** [/health](https://nastaleeq-api.vercel.app/health)
+- **Page 1 (Al-Fatiha):** [/api/pages/1/image](https://nastaleeq-api.vercel.app/api/pages/1/image)
+- **All Pages Metadata:** [/api/pages](https://nastaleeq-api.vercel.app/api/pages)
 
 ---
 
@@ -55,7 +55,7 @@ No installation needed! Just make HTTP requests:
 import { Image } from 'react-native';
 
 const QuranPage = ({ pageNumber }: { pageNumber: number }) => {
-  const API_BASE = 'https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app';
+  const API_BASE = 'https://nastaleeq-api.vercel.app';
   
   return (
     <Image
@@ -70,7 +70,7 @@ const QuranPage = ({ pageNumber }: { pageNumber: number }) => {
 **JavaScript/Web Example:**
 ```javascript
 const pageNumber = 1;
-const API_BASE = 'https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app';
+const API_BASE = 'https://nastaleeq-api.vercel.app';
 
 // Get image URL
 fetch(`${API_BASE}/api/pages/${pageNumber}`)
@@ -92,7 +92,7 @@ document.querySelector('#quran-page').src =
 ### Base URL
 
 ```
-https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app
+https://nastaleeq-api.vercel.app
 ```
 
 ### Endpoints
@@ -365,7 +365,7 @@ import React from 'react';
 import { Image, View, StyleSheet } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
-const API_BASE = 'https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app';
+const API_BASE = 'https://nastaleeq-api.vercel.app';
 
 export default function QuranReader() {
   return (
@@ -399,7 +399,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class QuranPage extends StatelessWidget {
   final int pageNumber;
   static const String apiBase = 
-    'https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app';
+    'https://nastaleeq-api.vercel.app';
 
   QuranPage({required this.pageNumber});
 
@@ -422,7 +422,7 @@ import SwiftUI
 
 struct QuranPageView: View {
     let pageNumber: Int
-    let apiBase = "https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app"
+    let apiBase = "https://nastaleeq-api.vercel.app"
     
     var body: some View {
         AsyncImage(url: URL(string: "\(apiBase)/api/pages/\(pageNumber)/image")) { image in
@@ -444,7 +444,7 @@ import coil.compose.AsyncImage
 
 @Composable
 fun QuranPage(pageNumber: Int) {
-    val apiBase = "https://nastaleeq-96tfns9u9-suhaibaramam-gmailcoms-projects.vercel.app"
+    val apiBase = "https://nastaleeq-api.vercel.app"
     
     AsyncImage(
         model = "$apiBase/api/pages/$pageNumber/image",
