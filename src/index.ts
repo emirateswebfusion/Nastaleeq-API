@@ -40,7 +40,11 @@ app.use((err: any, req: Request, res: Response, next: any) => {
   res.status(500).json({ error: 'Internal server error', message: err.message });
 });
 
-app.listen(PORT, () => {
-  console.log(`🕌 Nastaleeq API running on port ${PORT}`);
-  console.log(`📖 GET http://localhost:${PORT}/api/pages/1`);
-});
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`🕌 Nastaleeq API running on port ${PORT}`);
+    console.log(`📖 GET http://localhost:${PORT}/api/pages/1`);
+  });
+}
+
+export default app;

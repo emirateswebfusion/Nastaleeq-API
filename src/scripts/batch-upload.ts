@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import sharp from 'sharp';
 import cloudinary from '../config/cloudinary';
 import dotenv from 'dotenv';
 

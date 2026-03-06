@@ -1,116 +1,61 @@
 # Nastaleeq Quran API
 
-Convert and serve Nastaleeq Quran pages via Cloudinary - free public API
+Public API that serves your uploaded Nastaleeq Quran page images from Cloudinary.
 
-## Setup
+## 1) Configure
 
-### 1. Environment Variables
+Copy `.env.example` to `.env` and set:
 
-Create a `.env` file:
-
-```
-CLOUDINARY_CLOUD_NAME=df2b1hvbj
-CLOUDINARY_API_KEY=384493437157766
-CLOUDINARY_API_SECRET=LPd6g0CusOGw1f3oBDGuugzZCX4
+```env
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
 PORT=3000
 ```
 
-### 2. Install Dependencies
+## 2) Prepare images
+
+Convert your Quran PDF into page images and place in:
+
+`uploads/images/page_001.jpg` ... `uploads/images/page_604.jpg`
+
+## 3) Upload to Cloudinary
 
 ```bash
 npm install
-```
-
-### 3. Get Nastaleeq Quran PDF
-
-- Download from: **King Fahd Glorious Qur'an Printing Complex (KFGQPC)**
-  - https://quran.ksu.edu.sa/ or official KFGQPC sources
-- Place PDF at: `./uploads/nastaleeq.pdf`
-
-### 4. Convert & Upload to Cloudinary
-
-This processes your local PDF, converts all pages to images, and uploads to Cloudinary:
-
-```bash
 npm run upload
 ```
 
-This will:
-- Extract 604 pages from PDF
-- Convert each to JPEG
-- Upload to Cloudinary folder `quran/nastaleeq/`
-- Save metadata to `./meta/pages.json`
+This creates `meta/pages.json` with page-to-URL mapping.
 
-### 5. Run Server
+## 4) Run locally
 
-**Development:**
 ```bash
 npm run dev
 ```
 
-**Production:**
-```bash
-npm run build
-npm start
-```
-
-### 6. API Endpoints
-
-#### Get Page Image URL
-```
-GET /api/pages/:pageNumber
-```
-
-Response:
-```json
-{
-  "page": 1,
-  "url": "https://res.cloudinary.com/df2b1hvbj/image/upload/v1234567890/quran/nastaleeq/page_001.jpg",
-  "thumb": "https://res.cloudinary.com/df2b1hvbj/image/upload/c_scale,w_300/v1234567890/quran/nastaleeq/page_001.jpg"
-}
-```
-
-#### Get All Pages Metadata
-```
-GET /api/pages
-```
-
-#### Health Check
-```
-GET /api/health
-```
-
-### 7. Deploy to Vercel
+## 5) Deploy to Vercel
 
 ```bash
 vercel
 ```
 
-Set environment variables in Vercel dashboard:
+Then add environment variables in Vercel project settings:
+
 - `CLOUDINARY_CLOUD_NAME`
 - `CLOUDINARY_API_KEY`
 - `CLOUDINARY_API_SECRET`
 
-## Public API URL
+## Endpoints
 
-After deployment:
-```
-https://your-vercel-app.vercel.app/api/pages/1
-```
+- `GET /health`
+- `GET /api/pages` (all pages metadata)
+- `GET /api/pages/:pageNumber` (single page metadata)
+- `GET /api/pages/:pageNumber/image` (302 redirect to image, best for mobile image rendering)
+- `GET /api/pages/:pageNumber?format=url` (plain URL text)
 
-## Mobile App Integration
+## Mobile usage
 
-Update `QuranScreen.tsx`:
+Use this URL pattern in your app:
 
-```typescript
-if (readerMode === 'nastaleeq') {
-  return `https://your-vercel-app.vercel.app/api/pages/${pageNumber}?format=url`;
-}
-```
-
-## Notes
-
-- Pages are cached after first upload
-- Images are optimized and hosted via Cloudinary CDN globally
-- No rate limiting (add if needed for production)
-- CORS enabled for all origins
+`https://YOUR-VERCEL-APP.vercel.app/api/pages/{page}/image`

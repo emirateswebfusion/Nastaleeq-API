@@ -54,6 +54,29 @@ router.get('/pages/:pageNumber', (req: Request, res: Response) => {
   }
 });
 
+// GET /api/pages/:pageNumber/image - Redirect directly to image URL (best for RN <Image />)
+router.get('/pages/:pageNumber/image', (req: Request, res: Response) => {
+  try {
+    const pageNum = parseInt(req.params.pageNumber, 10);
+
+    if (isNaN(pageNum) || pageNum < 1 || pageNum > 604) {
+      return res.status(400).json({ error: 'Invalid page number. Must be 1-604.' });
+    }
+
+    const pages = loadPages();
+    const pageData = pages[pageNum];
+
+    if (!pageData?.url) {
+      return res.status(404).json({ error: `Page ${pageNum} not found. Please run upload first.` });
+    }
+
+    res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
+    return res.redirect(302, pageData.url);
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to redirect image', message: String(error) });
+  }
+});
+
 // GET /api/pages - Get all pages metadata
 router.get('/pages', (req: Request, res: Response) => {
   try {

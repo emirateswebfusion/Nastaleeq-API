@@ -4,6 +4,6 @@ dist/
 .DS_Store
 .env
 uploads/
-meta/pages.json
 .vercel/
 .next/
+.vercel
