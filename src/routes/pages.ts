@@ -70,8 +70,25 @@ router.get('/pages/:pageNumber/image', (req: Request, res: Response) => {
       return res.status(404).json({ error: `Page ${pageNum} not found. Please run upload first.` });
     }
 
+    // Apply Cloudinary transformations to crop decorative borders
+    let imageUrl = pageData.url;
+    
+    // Check if crop parameter is requested
+    const crop = req.query.crop === 'true' || req.query.crop === '1';
+    
+    if (crop && imageUrl.includes('cloudinary.com')) {
+      // Insert crop transformations: remove ~10% margins on each side
+      // c_crop,g_center - crop from center
+      // w_0.8,h_0.85 - use 80% width, 85% height (removes borders)
+      // q_auto,f_auto - optimize quality and format
+      imageUrl = imageUrl.replace(
+        '/upload/',
+        '/upload/c_crop,g_center,w_0.8,h_0.85,q_auto,f_auto/'
+      );
+    }
+
     res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
-    return res.redirect(302, pageData.url);
+    return res.redirect(302, imageUrl);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to redirect image', message: String(error) });
   }
